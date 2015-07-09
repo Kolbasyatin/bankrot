@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="{{ _charset }}"/>
+    <title>{% block title '' %}</title>
+
+    {% block stylesheets %}
+        <!--<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css"/>-->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.min.css"/>
+
+        {% stylesheets filter='cssrewrite, ?yui_css'
+        'bundles/bankrotsite/css/theme.css'
+        'bundles/bankrotsite/css/global.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ path('home') }}">
+                <i class="fa fa-home"></i>
+            </a>
+        </div>
+
+        {{ knp_menu_render('main', { currentClass: 'active' }) }}
+
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {{ knp_menu_render('auth_logged', { currentClass: 'active' }) }}
+
+            <div class="navbar-right navbar-text">
+                Вы вошли как <a href="{{ path('fos_user_profile_show') }}">{{ app.user.username }}</a>
+            </div>
+        {% else %}
+            {{ knp_menu_render('auth', { currentClass: 'active' }) }}
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    {% block content '' %}
+</div>
+
+{% block javascripts %}
+    <script src="//cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.jscroll/2.2.4/jquery.jscroll.min.js"></script>
+
+    {% javascripts filter='?yui_js'
+    'bundles/bankrotsite/js/global.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block footer %}{% endblock %}
+</body>
+</html>
